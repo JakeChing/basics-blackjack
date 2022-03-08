@@ -19,12 +19,24 @@ var playerHand = [];
 // empty varable for to hold deck of cards
 var gameDeck = [];
 
+var myImage1 =
+  '<img src="https://c.tenor.com/zgfvIrrOSEsAAAAj/fantome-dance.gif"/>';
+
+var myImage2 =
+  '<img src="https://c.tenor.com/OMDmP9cfQYwAAAAj/oh-yes-we-must-do-it-again-eric-cartman.gif"/>';
+
+var myImage3 =
+  '<img src="https://c.tenor.com/2aNzJTQIRCIAAAAj/close-call-wew.gif"/>';
+
+var myImage4 =
+  '<img src="https://c.tenor.com/eDchk3srtycAAAAj/piffle-error.gif"/>';
+
 // Initialise the card deck representation as an array of objects
 var makeDeck = function () {
   // Initialise an empty deck array
   var cardDeck = [];
   // Initialise an array of the 4 suits in our deck. We will loop over this array.
-  var suits = ["hearts", "diamonds", "clubs", "spades"];
+  var suits = ["♥", "♦", "♣", "♠"];
 
   // Loop over the suits array
   var suitIndex = 0;
@@ -184,7 +196,7 @@ var displayBothHands = function (playerHandArray, dealerHandArray) {
   var playerMessage = `Player hand: <br>`;
   var index = 0;
   while (index < playerHandArray.length) {
-    playerMessage = `${playerMessage} -> ${playerHandArray[index].name} of ${playerHandArray[index].suit} <br>`;
+    playerMessage = `${playerMessage} 🚀 ${playerHandArray[index].name} ${playerHandArray[index].suit} <br>`;
     index = index + 1;
   }
 
@@ -192,7 +204,7 @@ var displayBothHands = function (playerHandArray, dealerHandArray) {
   var dealerMessage = `Dealer hand: <br>`;
   var index = 0;
   while (index < dealerHandArray.length) {
-    dealerMessage = `${dealerMessage} -> ${dealerHandArray[index].name} of ${dealerHandArray[index].suit} <br>`;
+    dealerMessage = `${dealerMessage} 🚀 ${dealerHandArray[index].name} ${dealerHandArray[index].suit} <br>`;
     index = index + 1;
   }
   return playerMessage + "<br>" + dealerMessage;
@@ -271,21 +283,21 @@ var main = function (input) {
         outputMessage = `${displayBothHands(
           playerHand,
           dealerHand
-        )} <br> It's a Black Jack Tie!`;
+        )} <br> It's a Black Jack Tie! <br> ${myImage3}`;
       }
       // when player black jack
       else if (playerHasBlackjack == true && dealerHasBlackjack == false) {
         outputMessage = `${displayBothHands(
           playerHand,
           dealerHand
-        )} <br> Player wins by Black Jack!`;
+        )} <br> Player wins by Black Jack! <br> ${myImage1}`;
       }
       // when dealer has black jack
       else {
         outputMessage = `${displayBothHands(
           playerHand,
           dealerHand
-        )} <br> Dealer wins by Black Jack!`;
+        )} <br> Dealer wins by Black Jack! <br> ${myImage2}`;
       }
       resetGame();
       console.log(currentGameMode);
@@ -341,7 +353,7 @@ var main = function (input) {
         )} <br> Its a Tie!" ${displayHandTotalValues(
           playerHandTotalValue,
           dealerHandTotalValue
-        )}`;
+        )} <br> ${myImage3}`;
       }
 
       // condition for player win
@@ -356,7 +368,7 @@ var main = function (input) {
         )} <br> Player wins!" ${displayHandTotalValues(
           playerHandTotalValue,
           dealerHandTotalValue
-        )}`;
+        )} <br> ${myImage1}`;
       }
 
       // Dearler win (last possible condition)
@@ -364,10 +376,10 @@ var main = function (input) {
         outputMessage = `${displayBothHands(
           playerHand,
           dealerHand
-        )} <br> Dealer wins!" ${displayHandTotalValues(
+        )} <br> Dealer wins! ${displayHandTotalValues(
           playerHandTotalValue,
           dealerHandTotalValue
-        )}`;
+        )} <br> ${myImage2}`;
       }
 
       // update game mode back to the start
@@ -379,7 +391,7 @@ var main = function (input) {
       outputMessage = `Please only input "hit" or "stand" to continue. <br><br> ${displayBothHands(
         playerHand,
         dealerHand
-      )}`;
+      )} <br> ${myImage4}`;
     }
 
     // return output message
