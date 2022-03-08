@@ -114,6 +114,64 @@ var playerHand = [];
 // empty varable for to hold deck of cards
 var gameDeck = [];
 
+// game functions
+
+// function that check for blackjack (instant win)
+var checkBlackJack = function (handArray) {
+  // go through player hand
+  // check whether there is blackJack and return true
+  // else return false
+  var playerCardOne = handArray[0];
+  var playerCardTwo = handArray[1];
+  // default return false
+  var isBlackJack = false;
+
+  // Blackjack scenarios -> #1 ace, #2 10/suit or #1 10/suit, #2 ace
+  if (
+    (playerCardOne.name == "ace" && playerCardTwo.rank >= 10) ||
+    (playerCardTwo.name == "ace" && playerCardOne.rank >= 10)
+  ) {
+    isBlackJack = true;
+  }
+  return isBlackJack;
+};
+
+// function that add up the tanks for a given hand
+var CalculateTotalHandValue = function (handArray) {
+  var totalHandValue = 0;
+  // keep track of ace in hand
+  var aceCounter = 0;
+
+  // loop through player/dealer hands and add ranks
+  var index = 0;
+  while (index < handArray.length) {
+    var currCard = handArray[index];
+    // default ace as 11 count first
+    if (currCard.name == "ace") {
+      totalHandValue = +11;
+      aceCounter = +1;
+    }
+    //else all ther ranks are valued by their ranks
+    else {
+      totalHandValue = +currCard.rank;
+    }
+    // next card
+    index = +1;
+  }
+
+  // reset index for ace counter
+  index = 0;
+  // loop number of aces found
+  // deduct 10 when total hand value more than 21
+  while (index < aceCounter) {
+    if (totalHandValue > 21) {
+      totalHandValue = totalHandValue - 10;
+    }
+    index = +1;
+  }
+  return totalHandValue;
+};
+
 var drawCard = function () {
   var counter = 0;
   while (counter < 2) {
