@@ -198,6 +198,7 @@ var displayHandTotalValues = function (playerHandValue, dealerHandValue) {
   return totalHandValueMesage;
 };
 
+// first initial 2 card draws
 var drawCard = function () {
   var counter = 0;
   while (counter < 2) {
@@ -207,19 +208,64 @@ var drawCard = function () {
     playerHand.push(playerDraw);
     counter = counter + 1;
   }
-  console.log(dealerHand);
-  console.log(playerHand);
+  // check player and dealer card
+  console.log('Dealer Hand: ' + dealerHand);
+  console.log('Player Hand: ' + playerHand);
 };
 
 var main = function (input) {
+  var outputMessage= "",
+
+  // first click of the button
   if ((currentGameMode = startGame)) {
+    // initial 2 card draw
     drawCard();
     var drawCount = 0;
+
+    // update game mode
+    currentGameMode = cardDrawn;
+    outputMessage = "Cards has been drawn. Please click button to calculate cards value!"
+
+    return outputMessage;
+  };
+
+  // second click (calculate value)
+  if (currentGameMode = cardDrawn){
+    // check for blackack function  (true or false)
+    var playerHasBlackjack = checkBlackJack (playerHand);
+    var dealerHasBlackjack = checkBlackJack (dealerHand);
+
+    // check if dealer or player has blackjack
+    console.log("Does Player have Black Jack? ==>", playerHasBlackJack);
+    console.log("Does Dealer have Black Jack? ==>", dealerHasBlackJack);
+
+    // if either players has blackjack
+    // need this condition to narrow down to when there is blackjack
+    if (playerHasBlackjack == true || dealerHasBlackjack == true){
+      // when both has blackjack
+      If (playerHasBlackjack == true && dealerHasBlackjack == true){
+        outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> It's a Black Jack Tie!`;
+      }
+      // when player black jack
+      if (playerHasBlackjack == true && dealerHasBlackjack == false){
+        outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> Player wins by Black Jack!`;
+      }
+
+
+
+    }
+
+
+
+  }
     var dealerHandRank = sumOfRank(dealerHand);
     var playerHandRank = sumOfRank(playerHand);
-    console.log(dealerHandRank);
-    console.log(playerHandRank);
-    currentGameMode = cardDrawn;
+    
+    // check player and dealer card
+    console.log('Dealer Hand: ' + dealerHandRank);
+    console.log('Player Hand: ' + playerHandRank);
+    
+    
     return `Player sum of hand is ${playerHandRank} <br> Dealer sum of hand is ${dealerHandRank}`;
   }
   if ((currentGameMode = cardDrawn)) {
