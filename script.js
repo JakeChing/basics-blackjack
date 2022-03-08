@@ -81,10 +81,6 @@ var shuffleCards = function (cardDeck) {
   return cardDeck;
 };
 
-// Shuffle the deck and save it in a new variable shuffledDeck
-// to communicate that we have shuffled the deck.
-var shuffledDeck = shuffleCards(makeDeck());
-
 // function that creates and shuffles a deck
 var createNewDeck = function () {
   var newDeck = makeDeck();
@@ -102,8 +98,7 @@ var createNewDeck = function () {
 var startGame = "Start game";
 var cardDrawn = "card drawn";
 var resultShown = "result shown";
-var playerTurn = "Player turn";
-var dealerTurn = "Dealer turn";
+var hitOrStand = "hit or stand";
 
 var currentGameMode = startGame;
 
@@ -202,9 +197,9 @@ var displayHandTotalValues = function (playerHandValue, dealerHandValue) {
 var drawCard = function () {
   var counter = 0;
   while (counter < 2) {
-    var computerDraw = shuffledDeck.pop();
+    var dealerDraw = shuffledDeck.pop();
     var playerDraw = shuffledDeck.pop();
-    dealerHand.push(computerDraw);
+    dealerHand.push(dealerDraw);
     playerHand.push(playerDraw);
     counter = counter + 1;
   }
@@ -217,8 +212,9 @@ var main = function (input) {
   var outputMessage= "",
 
   // first click of the button
-  if ((currentGameMode = startGame)) {
+  if (currentGameMode = startGame) {
     // initial 2 card draw
+    gameDeck = createNewDeck();
     drawCard();
     var drawCount = 0;
 
@@ -231,7 +227,7 @@ var main = function (input) {
 
   // second click (calculate value)
   if (currentGameMode = cardDrawn){
-    // check for blackack function  (true or false)
+    // first check for blackack function  (true or false)
     var playerHasBlackjack = checkBlackJack (playerHand);
     var dealerHasBlackjack = checkBlackJack (dealerHand);
 
@@ -243,21 +239,77 @@ var main = function (input) {
     // need this condition to narrow down to when there is blackjack
     if (playerHasBlackjack == true || dealerHasBlackjack == true){
       // when both has blackjack
-      If (playerHasBlackjack == true && dealerHasBlackjack == true){
+      if (playerHasBlackjack == true && dealerHasBlackjack == true){
         outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> It's a Black Jack Tie!`;
       }
       // when player black jack
-      if (playerHasBlackjack == true && dealerHasBlackjack == false){
+      else if (playerHasBlackjack == true && dealerHasBlackjack == false){
         outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> Player wins by Black Jack!`;
       }
+      // when dealer has black jack
+      else {
+        outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> Dealer wins by Black Jack!`;
+      }
+    }
+    // when both players does not have blackjack
+    // game continue
+    // player to decide to hit or stand
+    else {
+      outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> No one has Black Jacks. <br> Player please input "hit" or "stand" to continue.`;
+
+     // update game mode
+     currentGameMode = hitOrStand;
+    }
+    // return message
+    return outputMessage;
+  }
+  
+  // After player choose hit or stand
+  if (currentGameMode = hitOrStand){
+    // when player inputs "hit"
+    if (input == "hit"){
+      playerHand.push(gameDeck.pop())
+      outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> Player drew another card. <br> Player please input "hit" or "stand" to continue.`
+    }
+    // when player input "stand"
+    else if (input == "stand"){
+      // calculate hand and see if the game can end
+      var playerHandTotalValue = calculateTotalHandValue(playerHand);
+      var dealerHandTotalValue = calculateTotalHandValue(dealerHand);
+
+      // Dealer hit or stand logic
+      while (dealerHandTotalValue < 17){
+        dealerHand.push(gameDeck.pop());
+        dealerHandTotalValue = calculateTotalHandValue(dealerHand); 
+      }
+
+      // condition for tied game
+      if ((playerHandTotalValue == dealerHandTotalValue) ||
+          (playerHandTotalValue > 21 && dealerHandTotalValue > 21)) {
+        outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> Its a Tie!" ${displayHandTotalValues(playerHandTotalValue, dealerHandTotalValue)}`;
+      } 
+
+      // condition for player win
+      else if ((playerHandTotalValue > dealerHandTotalValue && playerHandTotalValue <= 21) || (playerHandTotalValue <= 21 && dealerHandTotalValue > 21)) { 
+        outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> Player wins!" ${displayHandTotalValues(playerHandTotalValue, dealerHandTotalValue)}`;
+      }
+
+      // Dearler win (last possible condition)
+      else {
+        outputMessage = `${displayBothHands(playerHand, dealerHand)} <br> Dealer wins!" ${displayHandTotalValues(playerHandTotalValue, dealerHandTotalValue)}`
+      }
+
+      // update game mode 
+
 
 
 
     }
 
 
+    }
 
-  }
+
     var dealerHandRank = sumOfRank(dealerHand);
     var playerHandRank = sumOfRank(playerHand);
     
