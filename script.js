@@ -136,7 +136,7 @@ var checkBlackJack = function (handArray) {
   return isBlackJack;
 };
 
-// function that add up the tanks for a given hand
+// function that add up the tanks for a given hand (any players)
 var CalculateTotalHandValue = function (handArray) {
   var totalHandValue = 0;
   // keep track of ace in hand
@@ -170,6 +170,32 @@ var CalculateTotalHandValue = function (handArray) {
     index = +1;
   }
   return totalHandValue;
+};
+
+// to display player and dealer hands in message
+var displayBothHands = function (playerHandArray, dealerHandArray) {
+  // playerhand display
+  var playerMessage = `Player hand: <br>`;
+  var index = 0;
+  while (index < playerHandArray.length) {
+    playerMessage = `${playerMessage} - ${playerHandArray[index].name} of ${playerHandArray[index].suit} <br>`;
+    index = +1;
+  }
+
+  // dealerhand display
+  var dealerMessage = `Player hand: <br>`;
+  var index = 0;
+  while (index < dealerHandArray.length) {
+    dealerMessage = `${dealerMessage} - ${dealerHandArray[index].name} of ${dealerHandArray[index].suit} <br>`;
+    index = +1;
+  }
+  return playerMessage + "<br>" + dealerMessage;
+};
+
+// to display the total hand value from both hands
+var displayHandTotalValues = function (playerHandValue, dealerHandValue) {
+  var totalHandValueMesage = `<br> Player total hand value is ${playerHandValue} <br> Dealer total hand value is ${dealerHandValue}`;
+  return totalHandValueMesage;
 };
 
 var drawCard = function () {
